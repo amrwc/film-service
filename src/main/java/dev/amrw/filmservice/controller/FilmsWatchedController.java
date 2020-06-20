@@ -1,14 +1,16 @@
 package dev.amrw.filmservice.controller;
 
-import dev.amrw.filmservice.model.OmdbFilm;
+import dev.amrw.filmservice.dto.FilmsWatchedRequest;
+import dev.amrw.filmservice.dto.OmdbFilm;
 import dev.amrw.filmservice.service.OmdbService;
-import dev.amrw.filmservice.model.FilmsWatchedRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Films watched controller.
@@ -39,8 +41,8 @@ public class FilmsWatchedController {
      * @return the newly created entity
      */
     @RequestMapping(value = "/films-watched", method = RequestMethod.POST)
-    public ResponseEntity<OmdbFilm[]> filmsWatched(@RequestBody FilmsWatchedRequest request) {
-        final OmdbFilm film = omdbService.getFilm("tt1398426");
-        return new ResponseEntity<>(new OmdbFilm[] {film}, HttpStatus.OK);
+    public ResponseEntity<List<OmdbFilm>> filmsWatched(@RequestBody FilmsWatchedRequest request) {
+        final List<OmdbFilm> films = omdbService.getFilms(request.getUrls());
+        return new ResponseEntity<>(films, HttpStatus.OK);
     }
 }

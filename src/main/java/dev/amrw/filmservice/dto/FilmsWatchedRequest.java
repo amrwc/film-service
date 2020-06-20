@@ -1,4 +1,4 @@
-package dev.amrw.filmservice.model;
+package dev.amrw.filmservice.dto;
 
 /**
  * Request object that gets POST'ed to

@@ -1,4 +1,4 @@
-package dev.amrw.filmservice.model;
+package dev.amrw.filmservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

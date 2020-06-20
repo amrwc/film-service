@@ -1,10 +1,15 @@
 package dev.amrw.filmservice.service;
 
-import dev.amrw.filmservice.model.OmdbFilm;
+import dev.amrw.filmservice.dto.OmdbFilm;
+import dev.amrw.filmservice.util.UrlUtils;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Service for interacting with OMDB API.
@@ -33,5 +38,16 @@ public class OmdbService {
     public OmdbFilm getFilm(final String imdbId) {
         final String url = baseUrl + "&i=" + imdbId;
         return restTemplate.getForObject(url, OmdbFilm.class);
+    }
+
+    /**
+     * Fetches details of the films from the given IMDB URLs.
+     * @param imdbUrls array of IMDB URLs
+     * @return film details described by {@link OmdbFilm} DTOs
+     */
+    public List<OmdbFilm> getFilms(final String[] imdbUrls) {
+        return Arrays.stream(imdbUrls)
+                .map(url -> getFilm(UrlUtils.getImdbId(url)))
+                .collect(Collectors.toList());
     }
 }
