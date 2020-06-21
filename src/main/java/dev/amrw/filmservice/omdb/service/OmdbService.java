@@ -1,6 +1,6 @@
-package dev.amrw.filmservice.service;
+package dev.amrw.filmservice.omdb.service;
 
-import dev.amrw.filmservice.dto.OmdbFilm;
+import dev.amrw.filmservice.omdb.dto.OmdbFilm;
 import dev.amrw.filmservice.util.UrlUtils;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.env.Environment;

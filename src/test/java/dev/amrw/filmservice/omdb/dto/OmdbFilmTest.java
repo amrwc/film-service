@@ -1,4 +1,4 @@
-package dev.amrw.filmservice.dto;
+package dev.amrw.filmservice.omdb.dto;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;

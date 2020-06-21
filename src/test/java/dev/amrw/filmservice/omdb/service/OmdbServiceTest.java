@@ -1,6 +1,6 @@
-package dev.amrw.filmservice.service;
+package dev.amrw.filmservice.omdb.service;
 
-import dev.amrw.filmservice.dto.OmdbFilm;
+import dev.amrw.filmservice.omdb.dto.OmdbFilm;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

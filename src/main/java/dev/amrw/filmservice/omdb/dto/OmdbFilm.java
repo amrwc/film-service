@@ -1,10 +1,10 @@
-package dev.amrw.filmservice.dto;
+package dev.amrw.filmservice.omdb.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * DTO describing film entity responses from OMDB API.
+ * DTO describing film entity response from OMDB API.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OmdbFilm {
