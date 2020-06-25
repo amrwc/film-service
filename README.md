@@ -33,23 +33,23 @@ gradle -v
 
 1. Clone the repository.
 
-   ```bash
+   ```console
    git clone git@github.com:amrwc/film-service.git
    cd film-service
    ```
 
 1. Rename `omdb-api.example.properties` in `./src/main/resources`.
 
-   ```bash
+   ```console
    mv ./src/main/resources/omdb-api.example.properties \
       ./src/main/resources/omdb-api.properties
    ```
 
-1. Replace the example API key inside of `omdb-api.example.properties`.
+1. Replace the example API key inside of `omdb-api.properties`.
 
 1. Launch MongoDB server.
 
-   ```bash
+   ```console
    mongod --port 27017 \
           --dbpath ./db/mongodb \
           --config ./db/mongod.conf \
@@ -66,7 +66,7 @@ gradle -v
 
 1. Build and launch the application.
 
-   ```bash
+   ```console
    ./gradlew build
    ./gradlew bootRun
    ```
@@ -87,6 +87,19 @@ gradle -v
    db.adminCommand({ shutdown: 1 })
    db.shutdownServer()
    ```
+
+## Debugging
+
+To debug the application, launch Spring Boot with the relevant option and listen
+to the `5005` port.
+
+1. Launch Spring Boot with the debug option.
+
+    ```console
+    ./gradlew bootRun --debug-jvm
+    ```
+
+1. In the IDE, listen to `localhost:5005` to start the execution.
 
 [omdb]: https://www.omdbapi.com
 [omdb-api-key]: https://www.omdbapi.com/apikey.aspx
