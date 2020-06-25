@@ -1,7 +1,6 @@
 package dev.amrw.filmservice.omdb.service;
 
 import dev.amrw.filmservice.omdb.dto.OmdbFilm;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+import static org.apache.commons.lang3.RandomStringUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -30,13 +30,12 @@ class OmdbServiceTest {
     private RestTemplate restTemplate;
     private OmdbService service;
 
-    private String baseUrlMock;
+    private String baseUrl;
 
     @BeforeEach
     void beforeEach() {
-        service = new OmdbService(env, restTemplateBuilder);
-        baseUrlMock = RandomStringUtils.random(10);
-        when(env.getProperty(eq("base-url"))).thenReturn(baseUrlMock);
+        baseUrl = randomAlphabetic(10);
+        when(env.getProperty("base-url")).thenReturn(baseUrl);
         when(restTemplateBuilder.build()).thenReturn(restTemplate);
         service = new OmdbService(env, restTemplateBuilder);
     }
@@ -44,32 +43,29 @@ class OmdbServiceTest {
     @Test
     @DisplayName("Should have gotten film")
     void shouldHaveGottenFilm() {
-        final String imdbIdMock = RandomStringUtils.random(10);
-        final OmdbFilm omdbFilmMock = new OmdbFilm();
-        final String urlMock = getUrl(imdbIdMock);
-        when(restTemplate.getForObject(eq(urlMock), eq(OmdbFilm.class))).thenReturn(omdbFilmMock);
-        assertThat(service.getFilm(imdbIdMock)).isEqualTo(omdbFilmMock);
-        verify(restTemplate).getForObject(eq(urlMock), eq(OmdbFilm.class));
-        verifyNoMoreInteractions(restTemplate);
+        final String imdbId = randomAlphanumeric(10);
+        final OmdbFilm omdbFilm = mock(OmdbFilm.class);
+        final String url = getUrl(imdbId);
+        when(restTemplate.getForObject(url, OmdbFilm.class)).thenReturn(omdbFilm);
+        assertThat(service.getFilm(imdbId)).isEqualTo(omdbFilm);
     }
 
     @Test
     @DisplayName("Should have gotten films")
     void shouldHaveGottenFilms() {
-        final String imdbUrl1Mock = getUrl("tt" + RandomStringUtils.randomNumeric(7));
-        final String imdbUrl2Mock = getUrl("tt" + RandomStringUtils.randomNumeric(7));
-        final String[] imdbUrlsMock = new String[] {imdbUrl1Mock, imdbUrl2Mock};
-        final List<OmdbFilm> omdbFilmsMock = List.of(new OmdbFilm(), new OmdbFilm());
-        when(restTemplate.getForObject(eq(imdbUrl1Mock), eq(OmdbFilm.class))).thenReturn(omdbFilmsMock.get(0));
-        when(restTemplate.getForObject(eq(imdbUrl2Mock), eq(OmdbFilm.class))).thenReturn(omdbFilmsMock.get(1));
-        assertThat(service.getFilms(imdbUrlsMock)).usingRecursiveComparison().isEqualTo(omdbFilmsMock);
+        final String imdbUrl1 = getUrl("tt" + randomNumeric(7));
+        final String imdbUrl2 = getUrl("tt" + randomNumeric(7));
+        final String[] imdbUrls = new String[] {imdbUrl1, imdbUrl2};
+        final List<OmdbFilm> omdbFilms = List.of(mock(OmdbFilm.class), mock(OmdbFilm.class));
+        when(restTemplate.getForObject(imdbUrl1, OmdbFilm.class)).thenReturn(omdbFilms.get(0));
+        when(restTemplate.getForObject(imdbUrl2, OmdbFilm.class)).thenReturn(omdbFilms.get(1));
+        assertThat(service.getFilms(imdbUrls)).isEqualTo(omdbFilms);
         final ArgumentCaptor<String> imdbUrlCaptor = ArgumentCaptor.forClass(String.class);
-        verify(restTemplate, times(2)).getForObject(imdbUrlCaptor.capture(), eq(OmdbFilm.class));
-        assertThat(imdbUrlCaptor.getAllValues()).isEqualTo(List.of(imdbUrlsMock));
-        verifyNoMoreInteractions(restTemplate);
+        verify(restTemplate, times(imdbUrls.length)).getForObject(imdbUrlCaptor.capture(), eq(OmdbFilm.class));
+        assertThat(imdbUrlCaptor.getAllValues()).isEqualTo(List.of(imdbUrls));
     }
 
     private String getUrl(final String imdbId) {
-        return baseUrlMock + "&i=" + imdbId;
+        return baseUrl + "&i=" + imdbId;
     }
 }

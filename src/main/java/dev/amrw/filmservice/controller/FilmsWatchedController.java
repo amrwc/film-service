@@ -48,7 +48,7 @@ public class FilmsWatchedController {
     @RequestMapping(value = "/films-watched", method = RequestMethod.POST)
     public ResponseEntity<List<OmdbFilm>> filmsWatched(@RequestBody FilmsWatchedRequest request) {
         final List<OmdbFilm> omdbFilms = omdbService.getFilms(request.getUrls());
-        final List<Film> films = omdbFilms.stream().map(Film::of).collect(Collectors.toList());
+        final List<Film> films = omdbFilms.stream().map(Film::new).collect(Collectors.toList());
         filmService.saveAll(films);
         return new ResponseEntity<>(omdbFilms, HttpStatus.OK);
     }

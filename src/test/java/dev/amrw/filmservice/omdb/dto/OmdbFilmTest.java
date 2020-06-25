@@ -10,32 +10,32 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class OmdbFilmTest {
 
-    private String titleMock;
-    private String yearMock;
-    private String directorMock;
-    private String imdbIdMock;
+    private String title;
+    private String year;
+    private String director;
+    private String imdbId;
     private OmdbFilm omdbFilm;
 
     @BeforeEach
     void setUp() {
-        titleMock = RandomStringUtils.random(10);
-        yearMock = String.valueOf(RandomUtils.nextInt(1700, 9999));
-        directorMock = RandomStringUtils.random(10);
-        imdbIdMock = "tt" + RandomStringUtils.randomNumeric(7);
-        titleMock = RandomStringUtils.random(10);
+        title = RandomStringUtils.random(10);
+        year = String.valueOf(RandomUtils.nextInt(1700, 9999));
+        director = RandomStringUtils.random(10);
+        imdbId = "tt" + RandomStringUtils.randomNumeric(7);
+        title = RandomStringUtils.random(10);
         omdbFilm = new OmdbFilm();
-        omdbFilm.setTitle(titleMock);
-        omdbFilm.setYear(yearMock);
-        omdbFilm.setDirector(directorMock);
-        omdbFilm.setImdbId(imdbIdMock);
+        omdbFilm.setTitle(title);
+        omdbFilm.setYear(year);
+        omdbFilm.setDirector(director);
+        omdbFilm.setImdbId(imdbId);
     }
 
     @Test
-    @DisplayName("Should have set all fields correctly")
+    @DisplayName("Should have set all the fields correctly")
     void shouldHaveSetAllFieldsCorrectly() {
-        assertThat(omdbFilm.getTitle()).isEqualTo(titleMock);
-        assertThat(omdbFilm.getYear()).isEqualTo(yearMock);
-        assertThat(omdbFilm.getDirector()).isEqualTo(directorMock);
-        assertThat(omdbFilm.getImdbId()).isEqualTo(imdbIdMock);
+        assertThat(omdbFilm.getTitle()).isEqualTo(title);
+        assertThat(omdbFilm.getYear()).isEqualTo(year);
+        assertThat(omdbFilm.getDirector()).isEqualTo(director);
+        assertThat(omdbFilm.getImdbId()).isEqualTo(imdbId);
     }
 }

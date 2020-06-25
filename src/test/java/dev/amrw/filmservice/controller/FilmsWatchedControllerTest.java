@@ -5,8 +5,6 @@ import dev.amrw.filmservice.dto.Film;
 import dev.amrw.filmservice.dto.FilmsWatchedRequest;
 import dev.amrw.filmservice.omdb.dto.OmdbFilm;
 import dev.amrw.filmservice.omdb.service.OmdbService;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.apache.commons.lang3.RandomUtils.nextInt;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -39,27 +39,25 @@ class FilmsWatchedControllerTest {
     @Test
     @DisplayName("Should have processed POST request to '/films-watched'")
     void shouldHaveProcessedPostRequestToFilmsWatched() {
-        final String[] imdbUrlsMock = new String[] {RandomStringUtils.random(10), RandomStringUtils.random(10)};
-        final FilmsWatchedRequest requestMock = new FilmsWatchedRequest();
-        requestMock.setUrls(imdbUrlsMock);
-        final List<OmdbFilm> omdbFilmsMock = List.of(getOmdbFilmMock(), getOmdbFilmMock());
-        when(omdbService.getFilms(eq(imdbUrlsMock))).thenReturn(omdbFilmsMock);
-        assertThat(controller.filmsWatched(requestMock)).isEqualTo(new ResponseEntity<>(omdbFilmsMock, HttpStatus.OK));
-        verify(omdbService).getFilms(eq(imdbUrlsMock));
-        verifyNoMoreInteractions(omdbService);
+        final String[] imdbUrls = new String[] {randomAlphabetic(10), randomAlphabetic(10)};
+        final FilmsWatchedRequest request = new FilmsWatchedRequest();
+        request.setUrls(imdbUrls);
+        final List<OmdbFilm> omdbFilms = List.of(getOmdbFilm(), getOmdbFilm());
+        when(omdbService.getFilms(imdbUrls)).thenReturn(omdbFilms);
+        assertThat(controller.filmsWatched(request)).isEqualTo(new ResponseEntity<>(omdbFilms, HttpStatus.OK));
+        verify(omdbService).getFilms(eq(imdbUrls));
         verify(filmService).saveAll(filmsCaptor.capture());
         for (int i = 0; i < filmsCaptor.getValue().size(); i++) {
-            assertThat(filmsCaptor.getValue().get(i)).isEqualTo(Film.of(omdbFilmsMock.get(i)));
+            assertThat(filmsCaptor.getValue().get(i)).isEqualTo(new Film(omdbFilms.get(i)));
         }
-        verifyNoMoreInteractions(filmService);
     }
 
-    private static OmdbFilm getOmdbFilmMock() {
-        final OmdbFilm omdbFilmMock = new OmdbFilm();
-        omdbFilmMock.setTitle(RandomStringUtils.random(10));
-        omdbFilmMock.setYear(String.valueOf(RandomUtils.nextInt(1700, 9999)));
-        omdbFilmMock.setDirector(RandomStringUtils.random(10));
-        omdbFilmMock.setImdbId(RandomStringUtils.random(10));
-        return omdbFilmMock;
+    private static OmdbFilm getOmdbFilm() {
+        final OmdbFilm omdbFilm = new OmdbFilm();
+        omdbFilm.setTitle(randomAlphabetic(10));
+        omdbFilm.setYear(String.valueOf(nextInt(1700, 9999)));
+        omdbFilm.setDirector(randomAlphabetic(10));
+        omdbFilm.setImdbId(randomAlphabetic(10));
+        return omdbFilm;
     }
 }

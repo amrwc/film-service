@@ -1,42 +1,42 @@
 package dev.amrw.filmservice.domain.model;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.apache.commons.lang3.RandomUtils.nextInt;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FilmTest {
 
-    private String titleMock;
-    private String yearMock;
-    private String directorMock;
-    private String urlMock;
+    private String title;
+    private String year;
+    private String director;
+    private String url;
     private Film film;
 
     @BeforeEach
     void beforeEach() {
-        titleMock = RandomStringUtils.random(10);
-        yearMock = String.valueOf(RandomUtils.nextInt(1700, 9999));
-        directorMock = RandomStringUtils.random(10);
-        urlMock = RandomStringUtils.random(10);
+        title = randomAlphabetic(10);
+        year = String.valueOf(nextInt(1700, 9999));
+        director = randomAlphabetic(10);
+        url = randomAlphabetic(10);
         film = new Film.Builder()
-                .withTitle(titleMock)
-                .withYear(yearMock)
-                .withDirector(directorMock)
-                .withUrl(urlMock)
+                .withTitle(title)
+                .withYear(year)
+                .withDirector(director)
+                .withUrl(url)
                 .build();
     }
 
     @Test
-    @DisplayName("Should have set all fields correctly")
+    @DisplayName("Should have set all the fields correctly")
     void shouldHaveSetAllFieldsCorrectly() {
         assertThat(film.getId()).isNull();
-        assertThat(film.getTitle()).isEqualTo(titleMock);
-        assertThat(film.getYear()).isEqualTo(yearMock);
-        assertThat(film.getDirector()).isEqualTo(directorMock);
-        assertThat(film.getUrl()).isEqualTo(urlMock);
+        assertThat(film.getTitle()).isEqualTo(title);
+        assertThat(film.getYear()).isEqualTo(year);
+        assertThat(film.getDirector()).isEqualTo(director);
+        assertThat(film.getUrl()).isEqualTo(url);
     }
 }

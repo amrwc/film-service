@@ -5,26 +5,24 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Entity representing a film.
  */
-@CompoundIndex(name = "title_year_director", def = "{title: 1, year: 1, director: 1}", unique = true)
+@Document
+@CompoundIndex(name = "title_year_director", def = "{'title': 1, 'year': 1, 'director': 1}", unique = true)
 public class Film {
 
     @Id
     private String id;
 
-    @Indexed
     @NonNull
     private final String title;
 
-    @Indexed
     @NonNull
     private final String year;
 
-    @Indexed
     @NonNull
     private final String director;
 
