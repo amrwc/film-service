@@ -93,13 +93,27 @@ gradle -v
 To debug the application, launch Spring Boot with the relevant option and listen
 to the `5005` port.
 
-1. Launch Spring Boot with the debug option.
+1. Launch Spring Boot with the debugging option.
 
     ```console
     ./gradlew bootRun --debug-jvm
     ```
 
 1. In the IDE, listen to `localhost:5005` to start the execution.
+
+## Caveats
+
+- The `Film` Mongo document doesn't apply the unique index – when the
+  application creates the collection, it only applies the `_id` index. It may
+  be related to the Spring auto-configuration of the connection to the database,
+  along with the next, `MongoConverter` caveat.
+- Before it persists the `Film` document via `FilmRepository`, `FilmService`
+  maps the `OmdbFilm` DTO – it can be done using `MappingMongoConverter`, but it
+  requires an additional `@Configuration`-annotated class would instantiate the
+  database connection, and thus produce the required `@Bean`. Is it worth the
+  overhead only to reduce the four lines of a builder? I'll definitely consider
+  it again in the future once I learn more about Spring Data and Mongo
+  configuration.
 
 [omdb]: https://www.omdbapi.com
 [omdb-api-key]: https://www.omdbapi.com/apikey.aspx
