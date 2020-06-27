@@ -1,5 +1,6 @@
 package dev.amrw.filmservice.dto;
 
+import dev.amrw.filmservice.validation.NotBlankCollection;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -9,6 +10,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 public class FilmsWatchedRequest {
 
+    @NotBlankCollection(message = "URLs cannot be empty.")
     private String[] urls;
 
     public String[] getUrls() {

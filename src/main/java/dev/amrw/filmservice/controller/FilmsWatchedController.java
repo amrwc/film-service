@@ -7,6 +7,7 @@ import dev.amrw.filmservice.omdb.dto.OmdbFilm;
 import dev.amrw.filmservice.omdb.service.OmdbService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,7 +47,7 @@ public class FilmsWatchedController {
      * @return the newly created entity
      */
     @RequestMapping(value = "/films-watched", method = RequestMethod.POST)
-    public ResponseEntity<List<OmdbFilm>> filmsWatched(@RequestBody FilmsWatchedRequest request) {
+    public ResponseEntity<List<OmdbFilm>> filmsWatched(@RequestBody @Validated FilmsWatchedRequest request) {
         final List<OmdbFilm> omdbFilms = omdbService.getFilms(request.getUrls());
         final List<Film> films = omdbFilms.stream().map(Film::new).collect(Collectors.toList());
         filmService.saveAll(films);
