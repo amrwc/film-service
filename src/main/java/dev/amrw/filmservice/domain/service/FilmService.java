@@ -27,16 +27,9 @@ public class FilmService {
      * @return the newly saved entities
      */
     public List<Film> saveAll(final List<dev.amrw.filmservice.dto.Film> films) {
-        final List<Film> filmEntities = films.stream().map(this::translateFilmDto).collect(Collectors.toList());
+        final List<Film> filmEntities = films.stream()
+                .map(film -> new Film(film.getTitle(), film.getYear(), film.getDirector(), film.getUrl()))
+                .collect(Collectors.toList());
         return repository.saveAll(filmEntities);
-    }
-
-    private Film translateFilmDto(final dev.amrw.filmservice.dto.Film film) {
-        return new Film.Builder()
-                .withTitle(film.getTitle())
-                .withYear(film.getYear())
-                .withDirector(film.getDirector())
-                .withUrl(film.getUrl())
-                .build();
     }
 }

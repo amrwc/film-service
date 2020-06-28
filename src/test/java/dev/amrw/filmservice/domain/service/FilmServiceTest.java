@@ -49,16 +49,10 @@ class FilmServiceTest {
 
     @Test
     void shouldHaveSavedFilms() {
-        final Film filmEntity = new Film.Builder()
-                .withTitle(title)
-                .withYear(year)
-                .withDirector(director)
-                .withUrl(url)
-                .build();
-        final List<Film> expectedResult = List.of(filmEntity);
-        when(repository.saveAll(anyList())).thenReturn(expectedResult);
-        assertThat(service.saveAll(List.of(filmDto))).isEqualTo(expectedResult);
+        final List<Film> films = List.of(new Film(title, year, director, url));
+        when(repository.saveAll(anyList())).thenReturn(films);
+        assertThat(service.saveAll(List.of(filmDto))).isEqualTo(films);
         verify(repository).saveAll(filmsCaptor.capture());
-        assertThat(filmsCaptor.getValue()).isEqualTo(expectedResult);
+        assertThat(filmsCaptor.getValue()).isEqualTo(films);
     }
 }

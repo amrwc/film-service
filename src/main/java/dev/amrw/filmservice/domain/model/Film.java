@@ -4,18 +4,23 @@ import com.mongodb.lang.NonNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * Entity representing a film.
+ * Collection representing films.
  */
-@Document
+@Document(collection = "films")
 @CompoundIndex(name = "title_year_director", def = "{'title': 1, 'year': 1, 'director': 1}", unique = true)
 public class Film {
 
+    /** Name of the sequence used to generate UUID for each item. */
+    @Transient
+    public static final String SEQUENCE_NAME = "films_sequence";
+
     @Id
-    private String id;
+    private long id;
 
     @NonNull
     private final String title;
@@ -29,15 +34,19 @@ public class Film {
     @NonNull
     private final String url;
 
-    private Film(final Builder builder) {
-        title = builder.title;
-        year = builder.year;
-        director = builder.director;
-        url = builder.url;
+    public Film(final String title, final String year, final String director, final String url) {
+        this.title = title;
+        this.year = year;
+        this.director = director;
+        this.url = url;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -83,40 +92,5 @@ public class Film {
                 .append(director)
                 .append(url)
                 .toHashCode();
-    }
-
-    /**
-     * Builder for {@link Film}.
-     */
-    public static final class Builder {
-
-        private String title;
-        private String year;
-        private String director;
-        private String url;
-
-        public Builder withTitle(final String title) {
-            this.title = title;
-            return this;
-        }
-
-        public Builder withYear(final String year) {
-            this.year = year;
-            return this;
-        }
-
-        public Builder withDirector(final String director) {
-            this.director = director;
-            return this;
-        }
-
-        public Builder withUrl(final String url) {
-            this.url = url;
-            return this;
-        }
-
-        public Film build() {
-            return new Film(this);
-        }
     }
 }
