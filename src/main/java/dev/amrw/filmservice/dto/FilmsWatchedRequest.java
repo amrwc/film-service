@@ -1,8 +1,11 @@
 package dev.amrw.filmservice.dto;
 
-import dev.amrw.filmservice.validation.NotBlankCollection;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 /**
  * Request object that gets POST'ed to
@@ -10,14 +13,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 public class FilmsWatchedRequest {
 
-    @NotBlankCollection(message = "URLs cannot be empty.")
-    private String[] urls;
+    @NotEmpty(message = "URLs cannot be empty")
+    private List<@NotBlank(message = "URL cannot be blank") String> urls;
 
-    public String[] getUrls() {
+    public List<String> getUrls() {
         return urls;
     }
 
-    public void setUrls(final String[] urls) {
+    public void setUrls(final List<String> urls) {
         this.urls = urls;
     }
 

@@ -39,7 +39,7 @@ class FilmsWatchedControllerTest {
     @Test
     @DisplayName("Should have processed POST request to '/films-watched'")
     void shouldHaveProcessedPostRequestToFilmsWatched() {
-        final String[] imdbUrls = new String[] {randomAlphabetic(10), randomAlphabetic(10)};
+        final List<String> imdbUrls = List.of(randomAlphabetic(10), randomAlphabetic(10));
         final FilmsWatchedRequest request = new FilmsWatchedRequest();
         request.setUrls(imdbUrls);
         final List<OmdbFilm> omdbFilms = List.of(getOmdbFilm(), getOmdbFilm());

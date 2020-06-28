@@ -55,14 +55,14 @@ class OmdbServiceTest {
     void shouldHaveGottenFilms() {
         final String imdbUrl1 = getUrl("tt" + randomNumeric(7));
         final String imdbUrl2 = getUrl("tt" + randomNumeric(7));
-        final String[] imdbUrls = new String[] {imdbUrl1, imdbUrl2};
+        final List<String> imdbUrls = List.of(imdbUrl1, imdbUrl2);
         final List<OmdbFilm> omdbFilms = List.of(mock(OmdbFilm.class), mock(OmdbFilm.class));
         when(restTemplate.getForObject(imdbUrl1, OmdbFilm.class)).thenReturn(omdbFilms.get(0));
         when(restTemplate.getForObject(imdbUrl2, OmdbFilm.class)).thenReturn(omdbFilms.get(1));
         assertThat(service.getFilms(imdbUrls)).isEqualTo(omdbFilms);
         final ArgumentCaptor<String> imdbUrlCaptor = ArgumentCaptor.forClass(String.class);
-        verify(restTemplate, times(imdbUrls.length)).getForObject(imdbUrlCaptor.capture(), eq(OmdbFilm.class));
-        assertThat(imdbUrlCaptor.getAllValues()).isEqualTo(List.of(imdbUrls));
+        verify(restTemplate, times(imdbUrls.size())).getForObject(imdbUrlCaptor.capture(), eq(OmdbFilm.class));
+        assertThat(imdbUrlCaptor.getAllValues()).isEqualTo(imdbUrls);
     }
 
     private String getUrl(final String imdbId) {

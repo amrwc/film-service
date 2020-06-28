@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
@@ -16,13 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class FilmsWatchedRequestTest {
 
-    private String[] urls;
+    private List<String> urls;
     private FilmsWatchedRequest request;
     private Validator validator;
 
     @BeforeEach
     void beforeEach() {
-        urls = new String[] {randomAlphabetic(10), randomAlphabetic(10)};
+        urls = List.of(randomAlphabetic(10), randomAlphabetic(10));
         request = new FilmsWatchedRequest();
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
@@ -52,11 +53,11 @@ class FilmsWatchedRequestTest {
         final FilmsWatchedRequest request1 = new FilmsWatchedRequest();
         request1.setUrls(null);
         final FilmsWatchedRequest request2 = new FilmsWatchedRequest();
-        request2.setUrls(new String[] {});
+        request2.setUrls(List.of());
         final FilmsWatchedRequest request3 = new FilmsWatchedRequest();
-        request3.setUrls(new String[] {""});
+        request3.setUrls(List.of(""));
         final FilmsWatchedRequest request4 = new FilmsWatchedRequest();
-        request4.setUrls(new String[] {"", ""});
+        request4.setUrls(List.of("", ""));
         return Stream.of(
                 Arguments.of(request1),
                 Arguments.of(request2),
