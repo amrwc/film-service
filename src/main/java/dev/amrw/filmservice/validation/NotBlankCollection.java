@@ -21,12 +21,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <ul>
  *     <li>Array (array length is evaluated)</li>
  * </ul>
- *
+ * <p>
  * Supported sub-element types are:
  * <ul>
  *     <li>{@link CharSequence} (sequence length and presence of non-whitespace characters are evaluated)</li>
  *     <li>{@link Collection} (collection size is evaluated)</li>
  *     <li>{@link Map} (map size is evaluated)</li>
+ *     <li>{@link Object} array (array length and the all the above rules are evaluated on the elements)</li>
  * </ul>
  * @author amrwc
  */
@@ -37,7 +38,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(List.class)
 public @interface NotBlankCollection {
 
-    String message() default "Must not be empty nor contain empty elements";
+    String message() default "Must not be empty nor contain blank or empty elements";
 
     Class<?>[] groups() default {};
 
